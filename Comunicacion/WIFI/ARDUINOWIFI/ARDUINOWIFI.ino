@@ -37,7 +37,7 @@ void setup()
 
 void loop() {
  
-  WiFiClient client = wifiServer.available();
+  WiFiClient client = wifi.available();
  
   if (client) {
  
@@ -97,8 +97,8 @@ void loop() {
     Serial.println("intento");
     String welcome="I just connected to you my IP is";
     welcome+=WiFi.localIP();
-    String var="2";
-    client.write(var);
+    //String var="2";
+    //client.write(var);
     client.write("nada mas");
   }
   /*
