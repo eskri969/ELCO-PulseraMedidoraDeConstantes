@@ -24,23 +24,33 @@ import processing.net.*;
 Server myServer;
 Client c;
 int val = 0;
+String output;
+String input;
+int tout=5000;
 
 
 void setup() {
   size(200, 200);
   // Starts a myServer on port 80
-  myServer = new Server(this, 80);
+  myServer = new Server(this, 3000);
 }
 
 void draw() {
+  println();
   c=myServer.available();
   if (c != null) {
-    String input = c.readString();
-    println(input);
+    input=c.readString();      
+    if(input==null || input==""){
+       println("<<mensaje nulo>>");
+    }
+    else
+      println("El mensaje es: "+input);
+      myServer.write("ACK\n");
+      println("escribo ACK");
   }
-  myServer.write("hellooo");
-  /*
-  if(val==0)
-   myServer.write("hellooo");
-  */
+  else{
+    println("<<no hay mensaje>>");
+  }
+  myServer.write("peticion\n");
+  delay(5000);
 }

@@ -1,68 +1,23 @@
 int val=0;
 #include <WiFi.h>
 #include <SPI.h>
-const char* ssid = "Wifi Eurielec";
-const char* password =  "c0ck3t3and0";
-WiFiServer wifiServer(80);
+const char* ssid = "Tenda_205850";
+const char* password =  "54000209";
 boolean connected=false;
-//ESP32 ip 10.13.16.150
-
-IPAddress ip(10,13,16,150);            // IP address of the server
-IPAddress gateway(110,13,16,1);           // gateway of your network
-IPAddress subnet(255,255,255,0);          // subnet mask of your network
-
-/*
-void setup() 
-{
-  //initialize serial communications at a 9600 baud rate
-  Serial.begin(9600);
-  WiFi.config(ip, gateway, subnet);       // forces to use the fix IP
-  WiFi.begin(ssid, password);
-
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.println("Connecting to WiFi..");
-  }
-  Serial.println("Connected to the WiFi network");
-  Serial.println("Connected to wifi");
-  Serial.print("Status: "); Serial.println(WiFi.status());  // some parameters from the network
-  Serial.print("IP: ");     Serial.println(WiFi.localIP());
-  Serial.print("Subnet: "); Serial.println(WiFi.subnetMask());
-  Serial.print("Gateway: "); Serial.println(WiFi.gatewayIP());
-  Serial.print("SSID: "); Serial.println(WiFi.SSID());
-  Serial.print("Signal: "); Serial.println(WiFi.RSSI());
-  Serial.print("Networks: "); Serial.println(WiFi.scanNetworks());
- 
-}
-
-void loop() {
- 
-  WiFiClient client = wifi.available();
- 
-  if (client) {
- 
-    while (client.connected()) {
- 
-      while (client.available()>0) {
-        client.write("hello world");
-        Serial.println("Escribiendo: hello world");
-      }
- 
-      delay(10);
-    }
- 
-    client.stop();
-    Serial.println("Client disconnected");
- 
-  }
-}*/
-
+int sensor=15;
 
 int status = WL_IDLE_STATUS;
-IPAddress server(10,13,16,120);  // Google
+IPAddress server(192,168,0,102);  // Server IP
 
 // Initialize the client library
 WiFiClient client;
+
+IPAddress ip(192,168,0,150);            // IP address of the sESP32
+IPAddress gateway(192,168,0,102);           // gateway of your network
+IPAddress subnet(255,255,255,0);          // subnet mask of your network
+
+String input;
+int ack=0;
 
 void setup() {
   //initialize serial communications at a 9600 baud rate
@@ -84,29 +39,61 @@ void setup() {
   Serial.print("Signal: "); Serial.println(WiFi.RSSI());
   Serial.print("Networks: "); Serial.println(WiFi.scanNetworks());
     // if you get a connection, report back via serial:
-  if (client.connect(server, 80)) {
+  if (client.connect(server, 3000)) {
     connected=true;
     Serial.println("connected");
-    client.println("CONSEGUIDO");
-    client.println();
+  }
+  else{
+    Serial.println("not able to reach server");
   }
 }
 
 void loop() {  
   if(connected){
-    Serial.println("intento");
-    String welcome="I just connected to you my IP is";
-    welcome+=WiFi.localIP();
-    //String var="2";
-    //client.write(var);
-    client.write("nada mas");
+     Serial.println();
+     if(client.available()) {
+       Serial.println("<< hay mensaje que leer>>");
+       input = client.readStringUntil('\n');
+       if(!input || input==""){
+          Serial.println("<<mensaje vacio>>");
+       }
+       else{
+         Serial.print("recibo -> ");
+         Serial.println(input);      
+       }
+     }
+     else{
+       Serial.println("<<no hay mensaje que leer>>");
+     }
+     if(input=="peticion"){
+      client.write("datos");
+      Serial.print("escribo -> ");
+      Serial.println("datos");  
+      while(ack<6){
+        if(client.available()){
+          input = client.readStringUntil('\n');
+          if(input=="ACK"){
+             ack=6;
+             Serial.print("recibo -> ");
+             Serial.println(input);  
+          }
+        }
+        ack++;
+        if(ack==5){
+          client.write("datos");
+          Serial.print("escribo -> ");
+          Serial.println("datos");
+          ack=0;
+        }
+        delay(1000);
+      }
+      ack=0;
+     }
   }
-  /*
-  char var= client.read();
-  if(var!=0){
-      Serial.println(var);
-  }*/
+  else{
+    Serial.println("no connection :(");
+  }
 
-  delay(300);
+  delay(5000);
 }
 
