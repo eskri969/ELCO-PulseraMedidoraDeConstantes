@@ -1,0 +1,60 @@
+hello world!!!!! j'ajoute something au txtNUEVA ENTRADA DE DATOS
+,,,11188,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,18189,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,28191,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,38193,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,48195,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,58197,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,68199,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,78201,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,88203,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,98205,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,108207,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,118209,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,128211,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,138213,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,148215,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,158217,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,168219,,,get pulso,,,get pulso,,,get temperatura,,,
+
+NUEVA ENTRADA DE DATOS
+,,,11188,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,19189,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,29191,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,39193,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,49195,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,59197,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,69199,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,79201,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,89203,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,99205,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,109207,,,get pulso,,,get pulso,,,get temperatura,,,
+
+,,,119209,,,get pulso,,,get pulso,,,get temperatura,,,
+

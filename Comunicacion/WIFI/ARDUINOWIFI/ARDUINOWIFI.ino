@@ -1,23 +1,29 @@
 int val=0;
 #include <WiFi.h>
 #include <SPI.h>
+
 const char* ssid = "Tenda_205850";
 const char* password =  "54000209";
 boolean connected=false;
 int sensor=15;
 
 int status = WL_IDLE_STATUS;
-IPAddress server(192,168,0,102);  // Server IP
+IPAddress server(192,168,0,103);  // Server IP
 
 // Initialize the client library
 WiFiClient client;
 
 IPAddress ip(192,168,0,150);            // IP address of the sESP32
-IPAddress gateway(192,168,0,102);           // gateway of your network
+IPAddress gateway(192,168,0,103);           // gateway of your network
 IPAddress subnet(255,255,255,0);          // subnet mask of your network
 
 String input;
 int ack=0;
+String pulso;
+String oxigeno;
+String temperatura;
+String datos;
+String tiempo;
 
 void setup() {
   //initialize serial communications at a 9600 baud rate
@@ -66,9 +72,15 @@ void loop() {
        Serial.println("<<no hay mensaje que leer>>");
      }
      if(input=="peticion"){
-      client.write("datos");
+      pulso="get pulso";
+      oxigeno="get pulso";
+      temperatura="get temperatura";
+      tiempo=millis();
+      datos=",,,"+tiempo+",,,"+pulso+",,,"+oxigeno+",,,"+temperatura+",,,";
+
+      client.println(datos);
       Serial.print("escribo -> ");
-      Serial.println("datos");  
+      Serial.println(datos);  
       while(ack<6){
         if(client.available()){
           input = client.readStringUntil('\n');
@@ -80,9 +92,9 @@ void loop() {
         }
         ack++;
         if(ack==5){
-          client.write("datos");
+          client.println(datos);
           Serial.print("escribo -> ");
-          Serial.println("datos");
+          Serial.println(datos);
           ack=0;
         }
         delay(1000);
