@@ -1,0 +1,1 @@
+Montaje sobre D1 mini con display, menús y medición de temperatura funcional.
