@@ -4,11 +4,12 @@
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_MLX90614.h>
 
-#define OLED_RESET 0
+#define OLED_RESET -1
 Adafruit_SSD1306 display(OLED_RESET);
 
 
 #define D8 15
+#define D3 0
 #define DELAY 20
 #define TEMP_MUESTRAS 50
 
@@ -109,16 +110,19 @@ static const unsigned char PROGMEM logo16_glcd_bmp[] =
 
 
 
-int counter = 0;
+int menu_number = 0;
 
 int current_state = 0;
+
+int inside_menu = 0;
 
 
 void setup() {
   
   pinMode(D8, INPUT_PULLUP);
   //digitalWrite(D8, HIGH);
-  attachInterrupt(digitalPinToInterrupt(D8), handle_button, RISING);
+  attachInterrupt(digitalPinToInterrupt(D3), menu_button, FALLING);
+  attachInterrupt(digitalPinToInterrupt(D8), select_button, RISING);
   Serial.begin(9600);  
 
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
@@ -136,9 +140,12 @@ void setup() {
 
 
 void loop() {
-  //Serial.print(counter);
-  if(counter == 0){
+  //Serial.print(menu_number);
+  if(menu_number == 0){
     if (current_state == 1){
+      if (inside_menu == 1){
+        inside_menu = 0;
+      }
       delay(10);
     }else{
     current_state = 1;
@@ -155,8 +162,43 @@ void loop() {
     display.clearDisplay();
     }
   }
-  else if(counter == 1){
+  else if(menu_number == 1){
     if (current_state == 1){
+      if (inside_menu == 1){
+        display.stopscroll();
+        display.clearDisplay();
+        for (int i=0; i <= 5; i++){
+          display.setTextSize(1);
+          display.setTextColor(WHITE);
+          display.setCursor(0,0);
+          display.println("Midiendo pulso . .");
+          display.drawBitmap(110, 20,  logo16_glcd_bmp, 16, 16, WHITE);
+          display.display();
+          delay(500);
+          display.clearDisplay();
+          display.setTextSize(1);
+          display.setTextColor(WHITE);
+          display.setCursor(0,0);
+          display.println("Midiendo pulso . . .");
+          display.drawBitmap(110, 20,  logo16_glcd_bmp_2, 16, 16, WHITE);
+          display.display();
+          delay(500);
+          display.clearDisplay();
+        }
+        display.setTextSize(2);
+        display.setTextColor(WHITE);
+        display.setCursor(10,10);
+        display.print("75");
+        display.setTextSize(1);
+        display.println("ppm");
+        display.drawBitmap(110, 20,  logo16_glcd_bmp_2, 16, 16, WHITE);
+        display.display();
+        delay(2000);
+        display.clearDisplay();
+        //menu_number = menu_number + 1;
+        current_state = 0;
+        inside_menu = 0;
+      }
       delay(10);
     }else{
     current_state = 1;
@@ -173,8 +215,26 @@ void loop() {
     display.clearDisplay();
     }
   }
-  else if(counter == 2){
+  else if(menu_number == 2){
     if (current_state == 1){
+      if (inside_menu == 1){
+        display.stopscroll();
+        display.clearDisplay();
+        mideTemp();
+        display.setTextSize(2);
+        display.setTextColor(WHITE);
+        display.setCursor(10,10);
+        display.print(tempResult);
+        display.print((char)247); //degree symbol
+        display.println("C");
+        display.drawBitmap(110, 15,  logo16_glcd_bmp_4, 16, 16, WHITE);
+        display.display();
+        delay(2000);
+        display.clearDisplay();
+        //menu_number = menu_number + 1;
+        current_state = 0;   
+        inside_menu = 0;  
+      }
       delay(10);
     }else{
     current_state = 1;
@@ -191,101 +251,10 @@ void loop() {
     display.clearDisplay();
     }
   }
-  else if(counter == 3){
-    if (current_state == 1){
-      delay(10);
-    }else{
-    current_state = 1;
-    display.stopscroll();
-    display.clearDisplay();
-
-    for (int i=0; i <= 5; i++){
-      display.setTextSize(1);
-      display.setTextColor(WHITE);
-      display.setCursor(0,0);
-      display.println("Midiendo pulso . .");
-      display.drawBitmap(110, 20,  logo16_glcd_bmp, 16, 16, WHITE);
-      display.display();
-      delay(500);
-      display.clearDisplay();
-      display.setTextSize(1);
-      display.setTextColor(WHITE);
-      display.setCursor(0,0);
-      display.println("Midiendo pulso . . .");
-      display.drawBitmap(110, 20,  logo16_glcd_bmp_2, 16, 16, WHITE);
-      display.display();
-      delay(500);
-      display.clearDisplay();
-   }
-      display.setTextSize(2);
-      display.setTextColor(WHITE);
-      display.setCursor(10,10);
-      display.print("75");
-      display.setTextSize(1);
-      display.println("ppm");
-      display.drawBitmap(110, 20,  logo16_glcd_bmp_2, 16, 16, WHITE);
-      display.display();
-      delay(2000);
-    //display.drawBitmap(20, 0,  logo16_glcd_bmp, 16, 16, WHITE);
-    //display.display();
-    //delay(2000);
-    //display.stopscroll();
-    display.clearDisplay();
-    counter = counter + 1;
-    current_state = 0;
-    }
-  }
-
-  else if(counter == 4){
-    if (current_state == 1){
-      delay(10);
-    }else{
-    current_state = 1;
-    display.stopscroll();
-    display.clearDisplay();
-
-//    for (int i=0; i <= 10; i++){
-//      display.setTextSize(1);
-//      display.setTextColor(WHITE);
-//      display.setCursor(0,0);
-//      display.println("Midiendo temp .");
-//      display.drawBitmap(110, 15,  logo16_glcd_bmp_3, 16, 16, WHITE);
-//      display.display();
-//      delay(500);
-//      display.clearDisplay();
-//      display.setTextSize(1);
-//      display.setTextColor(WHITE);
-//      display.setCursor(0,0);
-//      display.println("Midiendo temp . .");
-//      display.drawBitmap(110, 15,  logo16_glcd_bmp_4, 16, 16, WHITE);
-//      display.display();
-//      delay(500);
-//      display.clearDisplay();
-//   }
-      mideTemp();
-      display.setTextSize(2);
-      display.setTextColor(WHITE);
-      display.setCursor(10,10);
-      display.print(tempResult);
-      display.print((char)247); //degree symbol
-      display.println("C");
-      display.drawBitmap(110, 15,  logo16_glcd_bmp_4, 16, 16, WHITE);
-      display.display();
-      delay(5000);
-    //display.drawBitmap(20, 0,  logo16_glcd_bmp, 16, 16, WHITE);
-    //display.display();
-    //delay(2000);
-    //display.stopscroll();
-    display.clearDisplay();
-    counter = counter + 1;
-    current_state = 0;
-    }
-  }
-
 
   
-  else if(counter > 4){
-    counter = 0;
+  else if(menu_number > 2){
+    menu_number = 0;
   }
   else{
     display.setTextSize(1);
@@ -298,16 +267,26 @@ void loop() {
   }
 }
 
-void handle_button()
+void menu_button()
 {
-  
   //delay(DELAY);
-  Serial.print("\nBoton presionado");
-  counter = counter + 1;
-  current_state = 0;
+
+  if (inside_menu == 0){
+    Serial.print("\nBoton de menu presionado");
+    menu_number = menu_number + 1;
+    current_state = 0;
+  }
   
   //int button_pressed = !digitalRead(D8); // pin low -> pressed
   //return button_pressed;
+}
+
+void select_button()
+{
+  //delay(DELAY);
+  Serial.print("\nBoton de seleccion presionado");
+  inside_menu = 1;
+
 }
 
 
