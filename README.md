@@ -1,4 +1,4 @@
-# SECO-PulseraMedidoraDeConstantes
+# ELCO-PulseraMedidoraDeConstantes
 
 Configuración del Software:
 
@@ -14,3 +14,7 @@ Configuración del Software:
  
 Una vez realizados los cambios anteriores ejecutar primero el servidor (programa Processing) y posteriormente pulsar el botón de reset de la
 pulsera (una vez que el programa Arduino esté cargado).
+
+Programa Arduino final: elco_final/elco_final.ino
+
+Programa Processing: Processing_User_Interface/PROCESSINGWIFI_EDIT/PROCESSINGWIFI_EDIT.pde
