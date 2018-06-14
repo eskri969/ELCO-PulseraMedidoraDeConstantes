@@ -1,5 +1,22 @@
 # ELCO-PulseraMedidoraDeConstantes
 
+**IMPORTANTE:** BioCare es un prototipo y su funcionamiento práctico real actualmente está ligado a una serie de medidas específicas:
+
+En el interior de la pulsera se encuentran dos interruptores numerados (1 y 2), si el interruptor se encuentra bajo, éste estará conectado, 
+si se encuentra alto estará desconectado. 
+El interruptor 1 conecta la batería a la etapa de carga.
+El interruptor 2 conecta la etapa de carga con el resto del circuito.
+
+-Durante el funcionamiento normal de BioCare, ambos interruptores deben estar presionados.
+
+-En caso de querer alimentar completamente la batería, deberá desconectar el interruptor 2 y dejar el 1 conectado. A continuación podrá
+conectar el cable micro USB al puerto de carga, un LED rojo se iluminará en el frontal. Espere a que se vuelva verde para una carga completa.
+
+-En caso de querer recompilar el programa en la Wemos D1 mini (para ajustar la WiFi por ejemplo), desconecte ambos interruptores. A continuación,
+conecte el cable micro USB desde su PC hasta el puerto que se encuentra en la placa Wemos D1 mini. 
+
+
+
 Configuración del Software:
 
     Arduino:
